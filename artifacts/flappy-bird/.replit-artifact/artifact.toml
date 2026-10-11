@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Flappy Bird"
+description = "Playable Flappy Bird-style browser game with click and Space controls, animated bird physics, moving pipes, scoring, collision detection, and restart flow."
+version = "1.0.0"
+id = "artifacts/flappy-bird"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24558
+
+[services.development]
+run = "pnpm --filter @workspace/flappy-bird run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/flappy-bird", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/flappy-bird/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24558"
+BASE_PATH = "/"
